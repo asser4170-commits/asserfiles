@@ -1,6 +1,7 @@
 const questions = [
   { text: "are you in grade 8?!??!", yes: "okay", no: "go away" },
-  { text: "Is grade 8 good?!??!", yes: "Correct", no: "Wrong" }
+  { text: "Is grade 8 good?!??!", yes: "Correct", no: "Wrong" },
+  { text: "what ms do you like?!??!", noha: "that's great", tasneem: "sience like me" }
 ];
 
 // المكان اللي هيتحط فيه الأسئلة تلقائيًا
