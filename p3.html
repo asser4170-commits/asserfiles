@@ -67,58 +67,8 @@
 
 
     <!-- FIXED SCRIPT — No class/ID changes -->
-    <script>
-        (function () {
-
-            // QUIZ 1
-            const form1 = document.getElementById("quiz");
-            const btn1 = document.getElementById("submitBtn");
-            const result1 = document.getElementById("result");
-
-            // QUIZ 2
-            const form2 = document.getElementById("quiz2");
-            const btn2 = document.getElementById("submitBtn2");
-            const result2 = document.getElementById("result2");
-
-            function getSelectedValue(form) {
-                const checked = form.querySelector("input[name='answer']:checked");
-                return checked ? checked.value : null;
-            }
-
-            function handleQuiz(form, button, resultBox, yesText, noText, event) {
-                event.preventDefault();
-
-                const val = getSelectedValue(form);
-
-                if (!val) {
-                    resultBox.textContent = "Choose an answer first!";
-                    resultBox.classList.add("wrong");
-                    return;
-                }
-
-                button.remove();
-
-                if (val === "yes") {
-                    resultBox.textContent = yesText;
-                    resultBox.classList.add("correct");
-                    resultBox.classList.remove("wrong");
-                } else {
-                    resultBox.textContent = noText;
-                    resultBox.classList.add("wrong");
-                    resultBox.classList.remove("correct");
-                }
-            }
-
-            btn1.addEventListener("pointerdown", (e) =>
-                handleQuiz(form1, btn1, result1, "Correct", "Wrong", e)
-            );
-
-            btn2.addEventListener("pointerdown", (e) =>
-                handleQuiz(form2, btn2, result2, "okay", "go away", e)
-            );
-
-        })();
-    </script>
+    <script src='asser.js'></script>
 
 </body>
 </html>
+
