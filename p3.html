@@ -17,7 +17,7 @@
 <body>
   <main class="center">
     <section class="card" id="card">
-      <p class="question">Is grade 8 good?!??!</p>
+      <p class="question">are you in grade 8?!??!</p>
 
       <form id="quiz" autocomplete="off" onsubmit="return false;">
         <div class="choices">
@@ -42,7 +42,7 @@
     <section class="card" id="card">
       <p class="question">Is grade 8 good?!??!</p>
 
-      <form id="quiz" autocomplete="off" onsubmit="return false;">
+      <form id="quiz2" autocomplete="off" onsubmit="return false;">
         <div class="choices">
           <label class="choice">
             <input type="radio" name="answer" value="yes" />
@@ -55,10 +55,10 @@
           </label>
         </div>
 
-        <button type="button" id="submitBtn" class="btn black" aria-label="Submit answer">Submit</button>
+        <button type="button" id="submitBtn2" class="btn black" aria-label="Submit answer">Submit</button>
       </form>
 
-      <div id="result" class="result" aria-live="polite"></div>
+      <div id="result2" class="result" aria-live="polite"></div>
     </section>
   </main>
   <script>
@@ -66,9 +66,17 @@
       const submitBtn = document.getElementById('submitBtn');
       const resultEl = document.getElementById('result');
       const form = document.getElementById('quiz');
+        const submitBtn2 = document.getElementById('submitBtn2');
+      const resultEl2 = document.getElementById('result2');
+      const form2 = document.getElementById('quiz2');
+
 
       function getSelectedValue() {
         const checked = form.querySelector('input[name="answer"]:checked');
+        return checked ? checked.value : null;
+      }
+        function getSelectedValue() {
+        const checked = form2.querySelector('input[name="answer"]:checked');
         return checked ? checked.value : null;
       }
 
@@ -85,21 +93,39 @@
           resultEl.classList.add('correct');
         } else {
           // show wrong (button remains)
-submitBtn.remove();
+          submitBtn.remove();
           resultEl.textContent = 'Wrong';
           resultEl.classList.remove('correct');
           resultEl.classList.add('wrong');
+        }
+      }
+        const val = getSelectedValue();
+        if (val === 'yes') {
+          // remove the button and show success
+          submitBtn2.remove();
+          resultEl2.textContent = 'okay';
+          resultEl2.classList.remove('wrong');
+          resultEl2.classList.add('correct');
+        } else {
+          // show wrong (button remains)
+          submitBtn2.remove();
+          resultEl2.textContent = 'go away';
+          resultEl2.classList.remove('correct');
+          resultEl2.classList.add('wrong');
         }
       }
 
       // Use touchstart and pointerdown for touch-first interaction; fallback to click
       submitBtn.addEventListener('touchstart', handleAnswerEvent, { passive: false });
       submitBtn.addEventListener('pointerdown', function (e) {
+          submitBtn2.addEventListener('touchstart', handleAnswerEvent, { passive: false });
+      submitBtn2.addEventListener('pointerdown', function (e) {
         // only handle pointerdown for touch/pen/mouse; pointerdown will also fire on touch on some devices,
         // but touchstart has been prevented above where applicable.
         handleAnswerEvent(e);
       });
       submitBtn.addEventListener('click', function (e) {
+          submitBtn2.addEventListener('click', function (e) {
         // fallback for environments that do not support pointer/touch events
         handleAnswerEvent(e);
       });
@@ -111,6 +137,7 @@ submitBtn.remove();
 </body>
 
 </html>
+
 
 
 
