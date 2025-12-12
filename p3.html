@@ -38,6 +38,29 @@
       <div id="result" class="result" aria-live="polite"></div>
     </section>
   </main>
+    <main class="center">
+    <section class="card" id="card">
+      <p class="question">Is grade 8 good?!??!</p>
+
+      <form id="quiz" autocomplete="off" onsubmit="return false;">
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="answer" value="yes" />
+            <span>Yes</span>
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="answer" value="no" />
+            <span>No</span>
+          </label>
+        </div>
+
+        <button type="button" id="submitBtn" class="btn black" aria-label="Submit answer">Submit</button>
+      </form>
+
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+  </main>
   <script>
     (function () {
       const submitBtn = document.getElementById('submitBtn');
@@ -88,5 +111,6 @@ submitBtn.remove();
 </body>
 
 </html>
+
 
 
