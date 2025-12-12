@@ -1,11 +1,9 @@
 const questions = [
   { text: "are you in grade 8?!??!", yes: "okay", no: "go away" },
-  { text: "Is grade 8 good?!??!", yes: "Correct", no: "Wrong" },
+  { text: "Is grade 8 good?!??!", yes: "Correct", no: "Wrong" }
 ];
 
-
-// المكان اللي هيتحط فيه الأسئلة تلقائيًا
-const container = document.body;
+const container = document.getElementById("square");
 
 questions.forEach((q, index) => {
 
@@ -21,24 +19,24 @@ questions.forEach((q, index) => {
 
   const form = document.createElement("form");
   form.autocomplete = "off";
-  form.onsubmit = () => false;
 
   const choices = document.createElement("div");
   choices.className = "choices";
 
   const yesLabel = document.createElement("label");
   yesLabel.className = "choice";
-  yesLabel.innerHTML = <input type="radio" name="q${index}" value="yes"><span>Yes</span>;
+  yesLabel.innerHTML =
+    <input type="radio" name="q${index}" value="yes"><span>Yes</span>;
 
   const noLabel = document.createElement("label");
   noLabel.className = "choice";
-  noLabel.innerHTML = <input type="radio" name="q${index}" value="no"><span>No</span>;
+  noLabel.innerHTML =
+    <input type="radio" name="q${index}" value="no"><span>No</span>;
 
   choices.appendChild(yesLabel);
   choices.appendChild(noLabel);
 
   const btn = document.createElement("button");
-  btn.type = "button";
   btn.className = "btn black";
   btn.textContent = "Submit";
 
