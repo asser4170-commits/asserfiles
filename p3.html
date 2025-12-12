@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asser's compitition</title>
+    <link href="p.css" rel="stylesheet" >
+</head>
+<body class="asso">
+    <div class="g8">
+      <a href="p.html" class="btn">home</a>
+      <a href="p2.html" class="btn">login</a>  
+    </div>
+ <div class="badiv"><title>Quick Question</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="center">
+    <section class="card" id="card">
+      <p class="question">Is grade 8 good?!??!</p>
+
+      <form id="quiz" autocomplete="off" onsubmit="return false;">
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="answer" value="yes" />
+            <span>Yes</span>
+          </label>
+
+          <label class="choice">
+            <input type="radio" name="answer" value="no" />
+            <span>No</span>
+          </label>
+        </div>
+
+        <button type="button" id="submitBtn" class="btn black" aria-label="Submit answer">Submit</button>
+      </form>
+
+      <div id="result" class="result" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const submitBtn = document.getElementById('submitBtn');
+      const resultEl = document.getElementById('result');
+      const form = document.getElementById('quiz');
+
+      function getSelectedValue() {
+        const checked = form.querySelector('input[name="answer"]:checked');
+        return checked ? checked.value : null;
+      }
+
+      function handleAnswerEvent(e) {
+        // Prefer touch/pointer events; prevent duplicate mouse events after touch
+        if (e.type === 'touchstart') e.preventDefault();
+
+        const val = getSelectedValue();
+        if (val === 'yes') {
+          // remove the button and show success
+          submitBtn.remove();
+          resultEl.textContent = 'Correct';
+          resultEl.classList.remove('wrong');
+          resultEl.classList.add('correct');
+        } else {
+          // show wrong (button remains)
+submitBtn.remove();
+          resultEl.textContent = 'Wrong';
+          resultEl.classList.remove('correct');
+          resultEl.classList.add('wrong');
+        }
+      }
+
+      // Use touchstart and pointerdown for touch-first interaction; fallback to click
+      submitBtn.addEventListener('touchstart', handleAnswerEvent, { passive: false });
+      submitBtn.addEventListener('pointerdown', function (e) {
+        // only handle pointerdown for touch/pen/mouse; pointerdown will also fire on touch on some devices,
+        // but touchstart has been prevented above where applicable.
+        handleAnswerEvent(e);
+      });
+      submitBtn.addEventListener('click', function (e) {
+        // fallback for environments that do not support pointer/touch events
+        handleAnswerEvent(e);
+      });
+    })();
+  </script>
+  </div>
+
+    
+</body>
+</html>

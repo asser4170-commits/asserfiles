@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>asser's compitition</title>
+    <link href="p.css" rel="stylesheet" >
+</head>
+<body class="pody">
+    <div class="g8">
+     <a href="p.html" class="btn">home</a>
+      <a href="p3.html" class="btn">drawing</a>  
+    </div>
+ <div class="badiv">
+   <h2 style="text-align:center; margin-bottom: 20px;">Login Info</h2>
+
+<label>Name:</label>
+<input type="text" id="name">
+
+<label>Male or Female:</label>
+<select id="gender">
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+</select>
+
+<label>Birthday:</label>
+<input type="date" id="birthday">
+
+<button onclick="saveInfo()">Submit</button>
+
+<script>
+    function saveInfo() {
+        let name = document.getElementById("name").value;
+        let gender = document.getElementById("gender").value;
+        let birthday = document.getElementById("birthday").value;
+
+        let userData = {
+            name: name,
+            gender: gender,
+            birthday: birthday
+        };
+
+        localStorage.setItem("UserInfo", JSON.stringify(userData));
+        alert("Saved!");
+    }
+</script>
+
+<style>
+    label {
+        font-weight: bold;
+        display: inline;
+        width: 120px;
+        left: 20px;
+        color: red;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        background: #f7f7f7;
+        transition: 0.3s;
+    }
+
+    input:focus, select:focus {
+        border-color: #4a90e2;
+        background: #ffffff;
+        box-shadow: 0 0 8px rgba(0, 140, 255, 0.3);
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        font-size: 17px;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        background: #000;
+        color: white;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #e60000;
+        transform: scale(1.03);
+    }
+</style>
+ </div>   
+</body>
+</html>
