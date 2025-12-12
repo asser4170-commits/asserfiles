@@ -4,126 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>asser's compitition</title>
-    <link href="p.css" rel="stylesheet" >
+    <link href="p.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="asso">
+
     <div class="g8">
-      <a href="index.html" class="btn">home</a>
-      <a href="p2.html" class="btn">login</a>  
+        <a href="index.html" class="btn">home</a>
+        <a href="p2.html" class="btn">login</a>
     </div>
- <div class="badiv"><title>Quick Question</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <main class="center">
-    <section class="card" id="card">
-      <p class="question">are you in grade 8?!??!</p>
 
-      <form id="quiz2" autocomplete="off" onsubmit="return false;">
-        <div class="choices">
-          <label class="choice">
-            <input type="radio" name="answer" value="yes" />
-            <span>Yes</span>
-          </label>
-
-          <label class="choice">
-            <input type="radio" name="answer" value="no" />
-            <span>No</span>
-          </label>
-        </div>
-
-        <button type="button" id="submitBtn2" class="btn black" aria-label="Submit answer">Submit</button>
-      </form>
-
-      <div id="result2" class="result" aria-live="polite"></div>
-    </section>
-  </main>
+    <!-- QUIZ 1 -->
     <main class="center">
-    <section class="card" id="card">
-      <p class="question">Is grade 8 good?!??!</p>
+        <section class="card" id="card">
+            <p class="question">are you in grade 8?!??!</p>
 
-      <form id="quiz" autocomplete="off" onsubmit="return false;">
-        <div class="choices">
-          <label class="choice">
-            <input type="radio" name="answer" value="yes" />
-            <span>Yes</span>
-          </label>
+            <form id="quiz2" autocomplete="off" onsubmit="return false;">
+                <div class="choices">
+                    <label class="choice">
+                        <input type="radio" name="answer" value="yes" />
+                        <span>Yes</span>
+                    </label>
 
-          <label class="choice">
-            <input type="radio" name="answer" value="no" />
-            <span>No</span>
-          </label>
-        </div>
+                    <label class="choice">
+                        <input type="radio" name="answer" value="no" />
+                        <span>No</span>
+                    </label>
+                </div>
 
-        <button type="button" id="submitBtn" class="btn black" aria-label="Submit answer">Submit</button>
-        
-      </form>
+                <button type="button" id="submitBtn2" class="btn black" aria-label="Submit answer">Submit</button>
+            </form>
 
-      <div id="result" class="result" aria-live="polite"></div>
-    </section>
+            <div id="result2" class="result" aria-live="polite"></div>
+        </section>
     </main>
+
+    <!-- QUIZ 2 -->
+    <main class="center">
+        <section class="card" id="card">
+            <p class="question">Is grade 8 good?!??!</p>
+
+            <form id="quiz" autocomplete="off" onsubmit="return false;">
+                <div class="choices">
+                    <label class="choice">
+                        <input type="radio" name="answer" value="yes" />
+                        <span>Yes</span>
+                    </label>
+
+                    <label class="choice">
+                        <input type="radio" name="answer" value="no" />
+                        <span>No</span>
+                    </label>
+                </div>
+
+                <button type="button" id="submitBtn" class="btn black" aria-label="Submit answer">Submit</button>
+            </form>
+
+            <div id="result" class="result" aria-live="polite"></div>
+        </section>
+    </main>
+
+
+    <!-- FIXED SCRIPT — No class/ID changes -->
     <script>
-  (function () {
-    // QUIZ 1
-    const form1 = document.getElementById("quiz");
-    const btn1 = document.getElementById("submitBtn");
-    const result1 = document.getElementById("result");
+        (function () {
 
-    // QUIZ 2
-    const form2 = document.getElementById("quiz2");
-    const btn2 = document.getElementById("submitBtn2");
-    const result2 = document.getElementById("result2");
+            // QUIZ 1
+            const form1 = document.getElementById("quiz");
+            const btn1 = document.getElementById("submitBtn");
+            const result1 = document.getElementById("result");
 
-    function getSelectedValue(form) {
-      const checked = form.querySelector("input[name='answer']:checked");
-      return checked ? checked.value : null;
-    }
+            // QUIZ 2
+            const form2 = document.getElementById("quiz2");
+            const btn2 = document.getElementById("submitBtn2");
+            const result2 = document.getElementById("result2");
 
-    function handleQuiz(form, button, resultBox, yesText, noText, event) {
-      event.preventDefault();
+            function getSelectedValue(form) {
+                const checked = form.querySelector("input[name='answer']:checked");
+                return checked ? checked.value : null;
+            }
 
-      const val = getSelectedValue(form);
+            function handleQuiz(form, button, resultBox, yesText, noText, event) {
+                event.preventDefault();
 
-      if (!val) {
-        resultBox.textContent = "Choose an answer first!";
-        resultBox.classList.add("wrong");
-        return;
-      }
+                const val = getSelectedValue(form);
 
-      button.remove();
+                if (!val) {
+                    resultBox.textContent = "Choose an answer first!";
+                    resultBox.classList.add("wrong");
+                    return;
+                }
 
-      if (val === "yes") {
-        resultBox.textContent = yesText;
-        resultBox.classList.add("correct");
-        resultBox.classList.remove("wrong");
-      } else {
-        resultBox.textContent = noText;
-        resultBox.classList.add("wrong");
-        resultBox.classList.remove("correct");
-      }
-    }
+                button.remove();
 
-    // Events
-    btn1.addEventListener("pointerdown", (e) =>
-      handleQuiz(form1, btn1, result1, "Correct", "Wrong", e)
-    );
+                if (val === "yes") {
+                    resultBox.textContent = yesText;
+                    resultBox.classList.add("correct");
+                    resultBox.classList.remove("wrong");
+                } else {
+                    resultBox.textContent = noText;
+                    resultBox.classList.add("wrong");
+                    resultBox.classList.remove("correct");
+                }
+            }
 
-    btn2.addEventListener("pointerdown", (e) =>
-      handleQuiz(form2, btn2, result2, "okay", "go away", e)
-    );
-  })();
-</script>
-    
-  </div>
+            btn1.addEventListener("pointerdown", (e) =>
+                handleQuiz(form1, btn1, result1, "Correct", "Wrong", e)
+            );
 
-    
+            btn2.addEventListener("pointerdown", (e) =>
+                handleQuiz(form2, btn2, result2, "okay", "go away", e)
+            );
+
+        })();
+    </script>
+
 </body>
-
 </html>
-
-
-
-
-
-
-
