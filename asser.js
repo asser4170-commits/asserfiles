@@ -11,8 +11,8 @@ const questions = [
   },
   {
     text: "which ms is your favorite ms 8?!??!",
-    yes: "Okay",
-    no: "Go away"
+    yes: "Oka",
+    no: "Go awa"
   }
 ];
 
