@@ -1,3 +1,14 @@
+.btn.black {
+  background-color: black;
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn.black:hover,
+.btn.black:active {
+  transform: scale(1.08);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}
 .p {
 width: 700px;
 height: 1000px;
@@ -184,5 +195,6 @@ transform: translate(-50%);
 font-family: 'Times New Roman', Times, serif;
 color:red;
 }
+
 
 
