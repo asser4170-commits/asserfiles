@@ -8,6 +8,11 @@ const questions = [
     text: "Is grade 8 good?!??!",
     yes: "Correct",
     no: "Wrong"
+  },
+  {
+    text: "which ms is your favorite ms 8?!??!",
+    yes: "Okay",
+    no: "Go away"
   }
 ];
 
