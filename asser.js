@@ -1,142 +1,83 @@
-// asser.js
+const questions = [
+  {
+    text: "Are you in grade 8?!??!",
+    yes: "Okay",
+    no: "Go away"
+  },
+  {
+    text: "Is grade 8 good?!??!",
+    yes: "Correct",
+    no: "Wrong"
+  }
+];
 
-document.addEventListener("DOMContentLoaded", () => {
-  try {
-    // --- اضف اسئلتك هنا ---
-    const questions = [
-      { text: "are you in grade 8?!??!", yes: "okay", no: "go away" },
-      { text: "Is grade 8 good?!??!", yes: "Correct", no: "Wrong" }
-      // مثال لإضافة سؤال جديد:
-      // ,{ text: "Do you like math?", yes: "Nice!", no: "Nope!" }
-    ];
+const container = document.getElementById("square");
 
-    // المكان اللي الأسئلة هتتبنى فيه — إذا مش موجود، fallback إلى body
-    const container = document.getElementById("square") || document.body;
+questions.forEach((q) => {
+  const card = document.createElement("section");
+  card.className = "card";
 
-    // Safety: لو container لسه null (نادراً جداً)، نمنع الكود من الاستمرار
-    if (!container) {
-      console.error("No container found for questions (expected #square).");
+  const p = document.createElement("p");
+  p.className = "question";
+  p.textContent = q.text;
+
+  const form = document.createElement("form");
+  form.autocomplete = "off";
+
+  const choices = document.createElement("div");
+  choices.className = "choices";
+
+  ["yes", "no"].forEach((val) => {
+    const label = document.createElement("label");
+    label.className = "choice";
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = q.text;
+    input.value = val;
+
+    const span = document.createElement("span");
+    span.textContent = val.toUpperCase();
+
+    label.appendChild(input);
+    label.appendChild(span);
+    choices.appendChild(label);
+  });
+
+  const btn = document.createElement("button");
+  btn.className = "btn black";
+  btn.textContent = "Submit";
+  btn.type = "button";
+
+  const result = document.createElement("div");
+  result.className = "result";
+
+  btn.addEventListener("pointerdown", () => {
+    const ans = form.querySelector("input:checked");
+
+    if (!ans) {
+      result.textContent = "Choose an answer!";
+      result.className = "result wrong";
       return;
     }
 
-    // لكل سؤال: بننشئ نفس بنية العناصر مع نفس الكلاسات
-    questions.forEach((q, index) => {
-      // main wrapper
-      const main = document.createElement("main");
-      main.className = "center";
+    btn.remove();
 
-      // card section
-      const section = document.createElement("section");
-      section.className = "card";
-      // NOTE: لا نضع id="card" هنا لتجنب duplicate id (لكن لو تريده نستطيع إضافته).
-      // نحتفظ بالكلاسات كما هي لأنها تتحكم في الحركة.
+    if (ans.value === "yes") {
+      result.textContent = q.yes;
+      result.className = "result correct";
+    } else {
+      result.textContent = q.no;
+      result.className = "result wrong";
+    }
+  });
 
-      // question text
-      const p = document.createElement("p");
-      p.className = "question";
-      p.textContent = q.text;
+  form.appendChild(choices);
+  form.appendChild(btn);
 
-      // form
-      const form = document.createElement("form");
-      form.autocomplete = "off";
-      // لا نستخدم onsubmit لتجنب أي submission غير مقصود
+  card.appendChild(p);
+  card.appendChild(form);
+  card.appendChild(result);
 
-      // choices container
-      const choices = document.createElement("div");
-      choices.className = "choices";
-
-      // yes choice
-      const yesLabel = document.createElement("label");
-      yesLabel.className = "choice";
-      // نستخدم name فريد لكل سؤال q{index} لتفادي تعارضات
-      yesLabel.innerHTML = <input type="radio" name="q${index}" value="yes"><span>Yes</span>;
-
-      // no choice
-      const noLabel = document.createElement("label");
-      noLabel.className = "choice";
-      noLabel.innerHTML = <input type="radio" name="q${index}" value="no"><span>No</span>;
-
-      choices.appendChild(yesLabel);
-      choices.appendChild(noLabel);
-
-      // submit button
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "btn black";
-      btn.textContent = "Submit";
-      // لا نغير أي كلاس لأن CSS يتحكم في الحركة
-
-      // result div
-      const result = document.createElement("div");
-      result.className = "result";
-      result.setAttribute("aria-live", "polite");
-
-      // Event listener: pointerdown و click كfallback
-      // نستخدم e.preventDefault() لمنع سلوك الفورم الافتراضي
-      const onSubmit = (e) => {
-        try {
-          e.preventDefault();
-
-          // نبحث فقط داخل الفورم الحالي باستخدام اسم الحقل الخاص بهذا السؤال
-          const ans = form.querySelector(input[name="q${index}"]:checked);
-
-          if (!ans) {
-            result.textContent = "Choose an answer!";
-            result.classList.add("wrong");
-            result.classList.remove("correct");
-            return;
-          }
-
-          // إزالة الزر بعد الاجابة
-          if (btn && btn.parentNode) btn.remove();
-
-          // عرض النتيجة
-          if (ans.value === "yes") {
-            result.textContent = q.yes;
-            result.classList.add("correct");
-            result.classList.remove("wrong");
-          } else {
-            result.textContent = q.no;
-            result.classList.add("wrong");
-            result.classList.remove("correct");
-          }
-        } catch (err) {
-          console.error("Error in onSubmit handler:", err);
-        }
-      };
-
-      btn.addEventListener("pointerdown", onSubmit, { passive: false });
-      btn.addEventListener("click", onSubmit);
-
-      // ربط العناصر
-      form.appendChild(choices);
-      form.appendChild(btn);
-
-      section.appendChild(p);
-      section.appendChild(form);
-      section.appendChild(result);
-
-      main.appendChild(section);
-      container.appendChild(main);
-    });
-
-    // OPTIONAL: keyboard accessibility — Enter on a radio's label will trigger its submit
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        // إذا المؤشر داخل فورم، نضغط الزر الخاص بالفورم القريب
-        const activeForm = document.activeElement && document.activeElement.closest && document.activeElement.closest("form");
-        if (activeForm) {
-          const submitBtn = activeForm.querySelector("button[type='button']");
-          if (submitBtn) {
-            submitBtn.click();
-            e.preventDefault();
-          }
-        }
-      }
-    });
-
-    console.log("asser.js loaded — questions rendered:", questions.length);
-  } catch (err) {
-    console.error("Critical error in asser.js:", err);
-  }
+  container.appendChild(card);
 });
