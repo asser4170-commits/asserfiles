@@ -1,127 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>asser's compitition</title>
-    <link href="p.css" rel="stylesheet" >
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>asser's compitition</title>
+  <link href="p.css" rel="stylesheet">
 </head>
+
 <body class="pody">
-    <div class="g8">
-     <a href="index.html" class="btn">home</a>
-      <a href="p3.html" class="btn">questoins</a>  
-    </div>
- <div class="badiv">
-   <h2 style="text-align:center; margin-bottom: 20px;">Login Info</h2>
+  <div class="g8">
+    <a href="index.html" class="btn">home</a>
+    <a href="p3.html" class="btn">questoins</a>
+  </div>
 
-<label>Name:</label>
-<input type="text" id="name">
+  <div class="badiv">
+    <h2 style="text-align:center; margin-bottom: 20px;">Login Info</h2>
 
-<label>Male or Female:</label>
-<select id="gender">
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-</select>
+    <label>Name:</label>
+    <input type="text" id="name">
 
-<label>Birthday:</label>
-<input type="date" id="birthday">
+    <label>Male or Female:</label>
+    <select id="gender">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+    </select>
 
-<button onclick="saveInfo()">Submit</button>
+    <label>Birthday:</label>
+    <input type="date" id="birthday">
 
-<script>
-     // Utility: encode string to Uint8Array
-    function strToUint8Array(str) {
-        return new TextEncoder().encode(str);
-    }
+    <button onclick="saveInfo()">Submit</button>
+  </div>
 
-    // Utility: decode Uint8Array to string
-    function uint8ArrayToStr(uint8arr) {
-        return new TextDecoder().decode(uint8arr);
-    }
-
-    // Utility: convert ArrayBuffer to base64
-    function arrayBufferToBase64(buffer) {
-        let binary = '';
-        const bytes = new Uint8Array(buffer);
-        for (let i = 0; i < bytes.byteLength; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return btoa(binary);
-    }
-    // Utility: convert base64 to ArrayBuffer
-    function base64ToArrayBuffer(base64) {
-        var binary_string = atob(base64);
-        var len = binary_string.length;
-        var bytes = new Uint8Array(len);
-        for (var i = 0; i < len; i++) {
-            bytes[i] = binary_string.charCodeAt(i);
-        }
-        return bytes.buffer;
-    }
-
-    // Utility: derive key from passphrase with PBKDF2
-    async function getKey(passphrase, salt) {
-        const enc = new TextEncoder();
-        const keyMaterial = await window.crypto.subtle.importKey(
-            "raw",
-            enc.encode(passphrase),
-            { name: "PBKDF2" },
-            false,
-            ["deriveKey"]
-        );
-        return await window.crypto.subtle.deriveKey(
-            {
-                "name": "PBKDF2",
-                salt: enc.encode(salt),
-                iterations: 100000,
-                hash: "SHA-256"
-            },
-            keyMaterial,
-            { "name": "AES-GCM", "length": 256 },
-            true,
-            [ "encrypt", "decrypt" ]
-        );
-    }
-
-    // Utility: AES-GCM encrypt
-    async function encryptData(plaintext, passphrase) {
-        const salt = window.crypto.getRandomValues(new Uint8Array(16));
-        const iv = window.crypto.getRandomValues(new Uint8Array(12));
-        const key = await getKey(passphrase, uint8ArrayToStr(salt));
-        const enc = new TextEncoder();
-        const encoded = enc.encode(plaintext);
-        const ciphertext = await window.crypto.subtle.encrypt(
-            {
-                name: "AES-GCM",
-                iv: iv
-            },
-            key,
-            encoded
-        );
-        return {
-            ct: arrayBufferToBase64(ciphertext),
-            iv: arrayBufferToBase64(iv),
-            salt: arrayBufferToBase64(salt)
-        };
-    }
-
-    // (Optional) Decrypt utility
-    // async function decryptData(encData, passphrase) {
-    //   const iv = base64ToArrayBuffer(encData.iv);
-    //   const salt = base64ToArrayBuffer(encData.salt);
-    //   const key = await getKey(passphrase, uint8ArrayToStr(new Uint8Array(salt)));
-    //   const decrypted = await window.crypto.subtle.decrypt({
-    //         name: "AES-GCM",
-    //         iv: new Uint8Array(iv)
-    //     }, key, base64ToArrayBuffer(encData.ct));
-    //   return uint8ArrayToStr(new Uint8Array(decrypted));
-    // }
-
+  <script>
     async function saveInfo() {
-</style>
- </div>   
+      const name = document.getElementById("name").value.trim();
+      const gender = document.getElementById("gender").value;
+      const birthday = document.getElementById("birthday").value;
+
+      if (!name || !birthday) {
+        alert("Please fill all fields");
+        return;
+      }
+
+      const data = {
+        name,
+        gender,
+        birthday
+      };
+
+      localStorage.setItem("loginInfo", JSON.stringify(data));
+      alert("Saved successfully");
+    }
+  </script>
+
 </body>
-
 </html>
-
-
