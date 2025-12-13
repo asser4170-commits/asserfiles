@@ -29,68 +29,99 @@
 <button onclick="saveInfo()">Submit</button>
 
 <script>
-    function saveInfo() {
-        let name = document.getElementById("name").value;
-        let gender = document.getElementById("gender").value;
-        let birthday = document.getElementById("birthday").value;
+     // Utility: encode string to Uint8Array
+    function strToUint8Array(str) {
+        return new TextEncoder().encode(str);
+    }
 
-        let userData = {
-            name: name,
-            gender: gender,
-            birthday: birthday
+    // Utility: decode Uint8Array to string
+    function uint8ArrayToStr(uint8arr) {
+        return new TextDecoder().decode(uint8arr);
+    }
+
+    // Utility: convert ArrayBuffer to base64
+    function arrayBufferToBase64(buffer) {
+        let binary = '';
+        const bytes = new Uint8Array(buffer);
+        for (let i = 0; i < bytes.byteLength; i++) {
+            binary += String.fromCharCode(bytes[i]);
+        }
+        return btoa(binary);
+    }
+    // Utility: convert base64 to ArrayBuffer
+    function base64ToArrayBuffer(base64) {
+        var binary_string = atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+    }
+
+    // Utility: derive key from passphrase with PBKDF2
+    async function getKey(passphrase, salt) {
+        const enc = new TextEncoder();
+        const keyMaterial = await window.crypto.subtle.importKey(
+            "raw",
+            enc.encode(passphrase),
+            { name: "PBKDF2" },
+            false,
+            ["deriveKey"]
+        );
+        return await window.crypto.subtle.deriveKey(
+            {
+                "name": "PBKDF2",
+                salt: enc.encode(salt),
+                iterations: 100000,
+                hash: "SHA-256"
+            },
+            keyMaterial,
+            { "name": "AES-GCM", "length": 256 },
+            true,
+            [ "encrypt", "decrypt" ]
+        );
+    }
+
+    // Utility: AES-GCM encrypt
+    async function encryptData(plaintext, passphrase) {
+        const salt = window.crypto.getRandomValues(new Uint8Array(16));
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
+        const key = await getKey(passphrase, uint8ArrayToStr(salt));
+        const enc = new TextEncoder();
+        const encoded = enc.encode(plaintext);
+        const ciphertext = await window.crypto.subtle.encrypt(
+            {
+                name: "AES-GCM",
+                iv: iv
+            },
+            key,
+            encoded
+        );
+        return {
+            ct: arrayBufferToBase64(ciphertext),
+            iv: arrayBufferToBase64(iv),
+            salt: arrayBufferToBase64(salt)
         };
-
-        localStorage.setItem("UserInfo", JSON.stringify(userData));
-        alert("Saved!");
-    }
-</script>
-
-<style>
-    label {
-        font-weight: bold;
-        display: inline;
-        width: 120px;
-        left: 20px;
-        color: red;
     }
 
-    input, select {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #bbb;
-        border-radius: 8px;
-        margin-bottom: 12px;
-        background: #f7f7f7;
-        transition: 0.3s;
-    }
+    // (Optional) Decrypt utility
+    // async function decryptData(encData, passphrase) {
+    //   const iv = base64ToArrayBuffer(encData.iv);
+    //   const salt = base64ToArrayBuffer(encData.salt);
+    //   const key = await getKey(passphrase, uint8ArrayToStr(new Uint8Array(salt)));
+    //   const decrypted = await window.crypto.subtle.decrypt({
+    //         name: "AES-GCM",
+    //         iv: new Uint8Array(iv)
+    //     }, key, base64ToArrayBuffer(encData.ct));
+    //   return uint8ArrayToStr(new Uint8Array(decrypted));
+    // }
 
-    input:focus, select:focus {
-        border-color: #4a90e2;
-        background: #ffffff;
-        box-shadow: 0 0 8px rgba(0, 140, 255, 0.3);
-    }
-
-    button {
-        width: 100%;
-        margin-top: 25px;
-        padding: 14px;
-        font-size: 17px;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        background: #000;
-        color: white;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    button:hover {
-        background: #e60000;
-        transform: scale(1.03);
-    }
+    async function saveInfo() {
 </style>
  </div>   
 </body>
 
 </html>
+
 
