@@ -1,5 +1,9 @@
-
-
+input{
+ border-radius:15px
+}
+option{
+ border-radius:15px
+}
 
 .p {
 width: 700px;
@@ -187,6 +191,7 @@ transform: translate(-50%);
 font-family: 'Times New Roman', Times, serif;
 color:red;
 }
+
 
 
 
