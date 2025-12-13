@@ -34,6 +34,23 @@
   </div>
 
   <script>
+    function saveInfo() {
+  const inputs = document.querySelectorAll("input, select");
+
+  let valid = true;
+  inputs.forEach(el => {
+    if (!el.value) {
+      valid = false;
+    }
+  });
+
+  if (!valid) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  alert("Saved successfully ✔");
+}
     async function saveInfo() {
       const name = document.getElementById("name").value.trim();
       const gender = document.getElementById("gender").value;
@@ -57,4 +74,5 @@
 
 </body>
 </html>
+
 
