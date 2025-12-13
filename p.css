@@ -16,6 +16,15 @@ height: 1000px;
     top: 15%;
     position: absolute;
 }
+input:invalid,
+select:invalid {
+  border: 2px solid red;
+}
+
+input:valid,
+select:valid {
+  border: 2px solid #ccc;
+}
 
 .h1{
 position:absolute;
@@ -172,3 +181,4 @@ transform: translate(-50%);
 font-family: 'Times New Roman', Times, serif;
 color:red;
 }
+
